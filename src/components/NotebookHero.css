@@ -1,0 +1,257 @@
+/* ==========================================================================
+   Base & Typography
+   ========================================================================== */
+
+.nb-mono {
+  font-family: "DM Mono", ui-monospace, monospace;
+}
+
+.nb-title {
+  margin: 0 0 0.75rem;
+  font-size: clamp(2.75rem, 9vw, 5rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.nb-sub {
+  position: relative;
+  max-width: 30rem;
+  margin: 0 0 1.75rem;
+  font-size: 1.1rem;
+  line-height: 1.45;
+  color: var(--slate);
+}
+
+/* ==========================================================================
+   Buttons & Interactive Elements
+   ========================================================================== */
+
+.nb-btn {
+  display: inline-block;
+  padding: 0.8rem 1.4rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--bg);
+  text-decoration: none;
+  background: var(--ink);
+  border: 1.5px solid var(--ink);
+  border-radius: 2px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.nb-btn:hover {
+  color: #1c1c28;
+  background: var(--yellow);
+}
+
+.nb-run {
+  display: inline-flex;
+  gap: 0.45rem;
+  align-items: center;
+  padding: 0.5rem 0.9rem;
+  font-family: "Instrument Sans", system-ui, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1c1c28;
+  cursor: pointer;
+  background: var(--yellow);
+  border: 0;
+  border-radius: 3px;
+}
+
+.nb-run:active {
+  transform: translateY(1px);
+}
+
+.nb-run:focus-visible,
+.nb-btn:focus-visible {
+  outline: 2px solid var(--slate);
+  outline-offset: 3px;
+}
+
+/* ==========================================================================
+   Layout & Components
+   ========================================================================== */
+
+.nb-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.6rem;
+  margin-top: 2.5rem;
+  font-size: 0.85rem;
+  color: var(--slate);
+}
+
+.nb-row {
+  display: grid;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.nb-gut {
+  min-height: 1.1rem;
+  font-size: 0.8rem;
+  color: var(--slate);
+}
+
+.nb-cell {
+  padding: 1rem 1.1rem;
+  overflow-x: auto;
+  font-size: 0.8rem;
+  line-height: 1.7;
+  background: var(--cell);
+  border-left: 3px solid var(--slate);
+  border-radius: 3px;
+  transition: border-color 0.2s;
+}
+
+.nb-cell.nb-running {
+  border-left-color: var(--yellow);
+}
+
+.nb-next {
+  margin-top: 2rem;
+  opacity: 0.55;
+}
+
+.nb-next .nb-cell {
+  border-left-color: var(--line);
+}
+
+/* ==========================================================================
+   Syntax & Lines
+   ========================================================================== */
+
+.nb-ln {
+  display: block;
+  white-space: pre;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.nb-ln.nb-on {
+  opacity: 1;
+  transform: none;
+}
+
+.nb-k {
+  font-weight: 500;
+  color: var(--slate);
+}
+
+.nb-s {
+  color: var(--str);
+}
+
+.nb-c {
+  color: var(--slate);
+  opacity: 0.8;
+}
+
+.nb-out {
+  padding-top: 0.5rem;
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.5s, transform 0.5s, visibility 0.5s;
+}
+
+.nb-out.nb-show {
+  visibility: visible;
+  opacity: 1;
+  transform: none;
+}
+
+/* ==========================================================================
+   Typing Animation & States
+   ========================================================================== */
+
+.nb-rest {
+  visibility: hidden;
+}
+
+.nb-caret {
+  position: relative;
+  display: inline-block;
+  width: 0;
+  height: 0;
+}
+
+.nb-caret::after {
+  position: absolute;
+  bottom: -0.18em;
+  left: 0.04em;
+  width: max(2px, 0.07em);
+  height: 0.95em;
+  content: "";
+  background: var(--ink);
+  animation: nb-blink 1s steps(1) infinite;
+}
+
+@keyframes nb-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.nb-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.nb-after {
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.5s, transform 0.5s, visibility 0.5s;
+}
+
+.nb-after.nb-in {
+  visibility: visible;
+  opacity: 1;
+  transform: none;
+}
+
+/* ==========================================================================
+   Media Queries
+   ========================================================================== */
+
+@media (min-width: 768px) {
+  .nb-row {
+    grid-template-columns: 5.5rem 1fr;
+    gap: 1rem;
+  }
+
+  .nb-gut {
+    padding-top: 1rem;
+    text-align: right;
+  }
+
+  .nb-cell {
+    font-size: 0.95rem;
+  }
+
+  .nb-out {
+    padding-top: 0.25rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nb-ln,
+  .nb-out,
+  .nb-cell,
+  .nb-after {
+    transition: none;
+  }
+
+  .nb-caret::after {
+    animation: none;
+  }
+}
