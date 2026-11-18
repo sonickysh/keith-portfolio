@@ -97,14 +97,67 @@
 }
 
 .nb-cell {
-  padding: 1rem 1.1rem;
-  overflow-x: auto;
+  --play: 1.25rem; /* button size */
+  --line: 1.36rem; /* one text line: font-size x line-height */
+  display: flex;
+  gap: 0.8rem;
+  align-items: flex-start;
+  padding: 0.9rem 1rem;
   font-size: 0.8rem;
   line-height: 1.7;
   background: var(--cell);
   border-left: 3px solid var(--slate);
   border-radius: 3px;
   transition: border-color 0.2s;
+}
+
+.nb-body {
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+}
+
+/* Colab-style run button inside the cell */
+.nb-play {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: var(--play);
+  height: var(--play);
+  margin-top: calc((var(--line) - var(--play)) / 2); /* centers on the first line */
+  padding: 0;
+  color: var(--slate);
+  cursor: pointer;
+  background: transparent;
+  border: 1.5px solid var(--slate);
+  border-radius: 50%;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.nb-play svg {
+  width: 36%;
+  height: auto;
+  margin-left: 1px; /* centers the triangle optically */
+}
+
+.nb-play:hover {
+  color: var(--ink);
+  border-color: var(--ink);
+}
+
+.nb-play:active {
+  transform: translateY(1px);
+}
+
+.nb-play:focus-visible {
+  outline: 2px solid var(--slate);
+  outline-offset: 3px;
+}
+
+.nb-running .nb-play {
+  color: #1c1c28;
+  background: var(--yellow);
+  border-color: var(--yellow);
 }
 
 .nb-cell.nb-running {
@@ -235,6 +288,10 @@
   }
 
   .nb-cell {
+    --play: 1.4rem;
+    --line: 1.615rem;
+    gap: 0.9rem;
+    padding: 1rem 1.1rem;
     font-size: 0.95rem;
   }
 
@@ -247,6 +304,7 @@
   .nb-ln,
   .nb-out,
   .nb-cell,
+  .nb-play,
   .nb-after {
     transition: none;
   }

@@ -1,0 +1,38 @@
+.sk-cell, .sk-out {
+  --play: 1.25rem; /* run button size */
+  --line: 1.36rem; /* one text line: font-size x line-height */
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 0.8rem;
+  line-height: 1.7;
+}
+
+/* Cell with a Colab-style run button on the left */
+.sk-cell { display: flex; align-items: flex-start; gap: 0.8rem; background: var(--cell); border-left: 3px solid var(--slate); border-radius: 3px; padding: 0.9rem 1rem; transition: border-color 0.2s; }
+.sk-cell.sk-running { border-left-color: var(--yellow); }
+.sk-body { flex: 1; min-width: 0; overflow-x: auto; }
+.sk-play { flex: none; display: grid; place-items: center; width: var(--play); height: var(--play); margin-top: calc((var(--line) - var(--play)) / 2); padding: 0; border: 1.5px solid var(--slate); border-radius: 50%; background: transparent; color: var(--slate); cursor: pointer; transition: color 0.2s, border-color 0.2s, background 0.2s; }
+.sk-play svg { width: 36%; height: auto; margin-left: 1px; } /* centers the triangle optically */
+.sk-play:hover { color: var(--ink); border-color: var(--ink); }
+.sk-play:active { transform: translateY(1px); }
+.sk-play:focus-visible { outline: 2px solid var(--slate); outline-offset: 3px; }
+.sk-running .sk-play { background: var(--yellow); border-color: var(--yellow); color: #1c1c28; }
+
+.sk-code, .sk-ln { display: block; white-space: pre; }
+.sk-k { color: var(--slate); font-weight: 500; }
+.sk-s { color: var(--str); }
+.sk-c { color: var(--slate); opacity: 0.8; }
+
+/* Output only exists after a cell has run, and lines up with the code, not the button */
+.sk-out { padding: 0.4rem 1rem 0 calc(3px + 1rem + var(--play) + 0.8rem); color: var(--slate); overflow-x: auto; }
+.sk-ln { opacity: 0; transition: opacity 0.25s; }
+.sk-ln.sk-on { opacity: 1; }
+.sk-last { color: var(--ink); }
+
+@media (min-width: 768px) {
+  .sk-cell, .sk-out { --play: 1.4rem; --line: 1.615rem; font-size: 0.95rem; }
+  .sk-cell { gap: 0.9rem; padding: 1rem 1.1rem; }
+  .sk-out { padding-left: calc(3px + 1.1rem + var(--play) + 0.9rem); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sk-cell, .sk-ln, .sk-play { transition: none; }
+}

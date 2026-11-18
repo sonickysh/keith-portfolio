@@ -1,12 +1,15 @@
 import "./styles/base.css";
+import { RunAllProvider } from "./context/RunAllProvider";
 import NotebookHero from "./components/NotebookHero";
 import Projects from "./components/Projects";
 import Leadership from "./components/Leadership";
 import Contact from "./components/Contact";
+import Skills from "./components/Skills";
 
 export default function App() {
   return (
-    <main className="page" id="top">
+    <RunAllProvider>
+      <main className="page" id="top">
       <header className="site-header">
         <nav className="site-nav" aria-label="Main">
           <a className="brand" href="#top" aria-label="Keith, back to top">
@@ -18,6 +21,7 @@ export default function App() {
             </svg>
           </a>
           <div className="site-links">
+            <a href="#skills">Skills</a>
             <a href="#projects">Projects</a>
             <a href="#leadership">Leadership</a>
             <a href="#contact">Contact</a>
@@ -25,10 +29,12 @@ export default function App() {
         </nav>
       </header>
       <NotebookHero />
+      <Skills />
       <Projects />
       <Leadership />
       <Contact />
       <p className="foot sec-mono">Keith · built with React + TypeScript</p>
     </main>
+    </RunAllProvider>
   );
 }

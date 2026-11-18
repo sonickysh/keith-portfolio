@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
+import { useRunAll } from "../context/RunAll";
 import "./NotebookHero.css";
 
 type Status = "idle" | "running" | "done";
@@ -97,6 +98,7 @@ export default function NotebookHero() {
   const [status, setStatus] = useState<Status>("idle");
   const [runs, setRuns] = useState(0);
   const runTimer = useRef<number | undefined>(undefined);
+  const { runAll } = useRunAll();
   const title = useTypewriter(TITLE, status === "done", TYPE_MS, reduce);
   const sub = useTypewriter(SUB, title.done, SUB_MS, reduce, 200);
 
@@ -119,6 +121,13 @@ export default function NotebookHero() {
     );
   }, [status, reduce]);
 
+  // The Run button runs the hero and every cell below it.
+  const runEverything = useCallback(() => {
+    if (status === "running") return;
+    run();
+    runAll();
+  }, [status, run, runAll]);
+
   // Run once automatically after the code has appeared.
   useEffect(() => {
     if (shown < LINES.length || runs > 0 || status !== "idle") return;
@@ -135,26 +144,33 @@ export default function NotebookHero() {
     <section aria-labelledby="hero-title">
       <div className="nb-bar nb-mono">
         <span>keith.ipynb</span>
-        <button className="nb-run" type="button" onClick={run}>
+        <button className="nb-run" type="button" onClick={runEverything}>
           <svg width="10" height="12" viewBox="0 0 10 12" aria-hidden="true">
             <path d="M0 0l10 6-10 6z" fill="currentColor" />
           </svg>
-          Run
+          Run all
         </button>
       </div>
 
       <div className="nb-row">
         <div className="nb-gut nb-mono">{inLabel}</div>
-        <div
-          className={`nb-cell nb-mono${status === "running" ? " nb-running" : ""}`}
-          role="img"
-          aria-label="Python code: keith = Person(...), then keith.introduce()"
-        >
-          {LINES.map((line, i) => (
-            <span key={i} className={`nb-ln${i < shown ? " nb-on" : ""}`}>
-              {line}
-            </span>
-          ))}
+        <div className={`nb-cell nb-mono${status === "running" ? " nb-running" : ""}`}>
+          <button type="button" className="nb-play" aria-label="Run this cell" onClick={run}>
+            <svg width="12" height="14" viewBox="0 0 10 12" aria-hidden="true">
+              <path d="M1 0.5l8.5 5.5-8.5 5.5z" fill="currentColor" />
+            </svg>
+          </button>
+          <div
+            className="nb-body"
+            role="img"
+            aria-label="Python code: keith = Person(...), then keith.introduce()"
+          >
+            {LINES.map((line, i) => (
+              <span key={i} className={`nb-ln${i < shown ? " nb-on" : ""}`}>
+                {line}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
 
